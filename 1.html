@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户登录</title>
+    <style>
+        /* 复用4_start.html的样式 */
+        :root {
+            --primary-color: #6366f1;
+            --text-color: #1e293b;
+            --border-radius: 24px;
+            --background: #ffffff;
+        }
+
+        body {
+            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a6c1ee);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--text-color);
+            line-height: 1.5;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            margin: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        button {
+            background: linear-gradient(135deg, #ffb6c1, #ffc1d9);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            font-size: 1rem;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 182, 193, 0.2);
+        }
+
+        .toggle-form {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .toggle-form a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 登录表单 -->
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">邮箱</label>
+                <input type="email" id="email" name="email" required placeholder="请输入注册邮箱">
+            </div>
+            <div class="form-group">
+                <label for="password">密码</label>
+                <input type="password" id="password" name="password" required placeholder="请输入密码">
+            </div>
+            <div class="error-message" id="loginError"></div>
+            <button type="submit">登录</button>
+        </form>
+        <div class="toggle-form">
+            <a href="#" id="showRegister">没有账号？立即注册</a>
+        </div>
+
+        <!-- 注册表单 (默认隐藏) -->
+        <form id="registerForm" style="display: none;">
+            <div class="form-group">
+                <label for="regUsername">用户名</label>
+                <input type="text" id="regUsername" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="regEmail">邮箱</label>
+                <input type="email" id="regEmail" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="regPassword">密码</label>
+                <input type="password" id="regPassword" name="password" required>
+            </div>
+            <div class="error-message" id="registerError"></div>
+            <button type="submit">注册</button>
+        </form>
+        <div class="toggle-form" style="display: none;" id="loginLink">
+            <a href="#" id="showLogin">已有账号？立即登录</a>
+        </div>
+
+        <div class="toggle-form">
+            <a href="http://127.0.0.1:8000/reset">忘记密码？</a>
+        </div>
+    </div>
+
+    <script>
+        // 表单切换处理
+        function setupFormToggle() {
+            document.getElementById('showRegister').addEventListener('click', showRegisterForm);
+            document.getElementById('showLogin').addEventListener('click', showLoginForm);
+        }
+
+        function showRegisterForm(e) {
+            e.preventDefault();
+            toggleForms('loginForm', 'registerForm');
+            toggleLinks('showRegister', 'loginLink');
+        }
+
+        function showLoginForm(e) {
+            e.preventDefault();
+            toggleForms('registerForm', 'loginForm');
+            toggleLinks('loginLink', 'showRegister');
+        }
+
+        function toggleForms(hideFormId, showFormId) {
+            document.getElementById(hideFormId).style.display = 'none';
+            document.getElementById(showFormId).style.display = 'block';
+        }
+
+        function toggleLinks(hideParentId, showParentId) {
+            document.getElementById(hideParentId).parentElement.style.display = 'none';
+            document.getElementById(showParentId).parentElement.style.display = 'block';
+        }
+
+        // 登录处理
+        async function handleLogin(e) {
+            e.preventDefault();
+            const formData = {
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value
+            };
+            
+            try {
+                const response = await sendAuthRequest('/login', formData);
+                handleAuthResponse(response, 'loginError');
+            } catch (error) {
+                showError('loginError', '登录失败，请稍后重试');
+            }
+        }
+
+        // 注册处理
+        async function handleRegister(e) {
+            e.preventDefault();
+            const formData = {
+                username: document.getElementById('regUsername').value,
+                email: document.getElementById('regEmail').value,
+                password: document.getElementById('regPassword').value
+            };
+            
+            try {
+                const response = await sendAuthRequest('/register', formData);
+                handleAuthResponse(response, 'registerError');
+            } catch (error) {
+                showError('registerError', '注册失败，请稍后重试');
+            }
+        }
+
+        // 发送认证请求
+        async function sendAuthRequest(endpoint, data) {
+            return await fetch(`http://127.0.0.1:8000${endpoint}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+        }
+
+        // 处理认证响应
+        async function handleAuthResponse(response, errorElementId) {
+            if (response.ok) {
+                const data = await response.json();
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('username', data.username);
+                window.location.href = 'http://127.0.0.1:8000/home';
+            } else {
+                const error = await response.json();
+                showError(errorElementId, error.detail);
+            }
+        }
+
+        // 显示错误信息
+        function showError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+
+        // 初始化事件监听
+        document.addEventListener('DOMContentLoaded', function() {
+            setupFormToggle();
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            document.getElementById('registerForm').addEventListener('submit', handleRegister);
+        });
+    </script>
+</body>
+</html>

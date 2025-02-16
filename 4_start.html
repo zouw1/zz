@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数字织造师</title>
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --text-color: #1e293b;
+            --border-radius: 24px;
+            --background: #ffffff;
+        }
+
+        body {
+            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a6c1ee);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--text-color);
+            line-height: 1.5;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: transparent;
+            box-shadow: none;
+            backdrop-filter: none;
+        }
+
+        .header {
+            text-align: left;
+            margin: 4rem 0;
+            padding: 0;
+            border: none;
+        }
+
+        .header h1 {
+            font-size: 4rem;
+            background: linear-gradient(to right, #ffb6c1, #ffc1d9, #ffd1dc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: titleFloat 3s ease-in-out infinite;
+            position: relative;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        @keyframes titleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .header::before {
+            content: "✨";
+            position: absolute;
+            top: -20px;
+            left: 0;
+            font-size: 2rem;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .header p {
+            font-size: 1.25rem;
+            color: #64748b;
+            max-width: 600px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #334155;
+            font-size: 0.95rem;
+        }
+
+        .form-group textarea {
+            width: 100%;
+            box-sizing: border-box;
+            min-height: 150px;
+            padding: 1rem;
+            font-size: 1.1rem;
+            line-height: 1.5;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            resize: vertical;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group textarea::placeholder {
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+
+        .form-group textarea:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 182, 193, 0.2),
+                        0 0 20px rgba(255, 182, 193, 0.15);
+        }
+
+        .form-group textarea::-webkit-scrollbar {
+            width: 6px;
+            background: transparent;
+        }
+
+        .form-group textarea::-webkit-scrollbar-thumb {
+            background: rgba(255, 182, 193, 0.3);
+            border-radius: 3px;
+        }
+
+        .form-group textarea::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .form-group input[type="text"] {
+            display: none;
+        }
+
+        button {
+            background: linear-gradient(135deg, #ffb6c1, #ffc1d9);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #ffa6b5, #ffb1cd);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 182, 193, 0.2);
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 12px rgba(255, 113, 112, 0.2);
+        }
+
+        button::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transform: rotate(45deg);
+            animation: buttonShine 3s ease-in-out infinite;
+        }
+
+        @keyframes buttonShine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .progress-container {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .progress-bar {
+            background: #e2e8f0;
+            height: 8px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress {
+            background: linear-gradient(90deg, #ffb6c1, #ffc1d9, #ffd1dc);
+            background-size: 200% 100%;
+            animation: progressGradient 2s linear infinite;
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.3s ease;
+        }
+
+        @keyframes progressGradient {
+            0% { background-position: 100% 0; }
+            100% { background-position: -100% 0; }
+        }
+
+        #progressText {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+
+        #progressPercent {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        .image-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-height: 700px;
+            overflow-y: auto;
+            padding: 1rem;
+            background: transparent;
+        }
+
+        .image-card {
+            background: transparent;
+            backdrop-filter: none;
+            border: none;
+            padding: 0;
+            margin-bottom: 1rem;
+            height: 520px;
+            width: 100%;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-card::after {
+            content: '点击查看原图';
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 182, 193, 0.8);
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: white;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+
+        .image-card:hover::after {
+            bottom: 20px;
+            opacity: 1;
+        }
+
+        .image-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .image-card:hover img {
+            transform: scale(1.02);
+        }
+
+        #loading {
+            display: none;
+            text-align: center;
+            padding: 1rem;
+            font-size: 1.1rem;
+            color: var(--primary-color);
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(74, 144, 226, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .status-badge {
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+        }
+
+        .status-processing {
+            background: #f0f9ff;
+            color: #0284c7;
+        }
+
+        .status-completed {
+            background: #f0fdf4;
+            color: #16a34a;
+        }
+
+        .form-group input[type="range"] {
+            height: 4px;
+            background: #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input[type="range"]:hover {
+            background: rgba(255, 182, 193, 0.3);
+        }
+
+        .form-group input[type="range"]::-webkit-slider-thumb {
+            width: 16px;
+            height: 16px;
+            background: #6366f1;
+            border: 2px solid #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 10px rgba(255, 182, 193, 0.5);
+        }
+
+        .range-marks {
+            display: none;
+        }
+
+        #widthValue, #heightValue, #stepsValue {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .image-card a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: minmax(300px, 1fr) 1.2fr;
+            gap: 3rem;
+            margin-top: 2rem;
+            align-items: start;
+            padding: 0 1rem;
+        }
+
+        .left-content {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .right-content {
+            flex: 0 0 700px;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: var(--border-radius);
+            transition: all 0.3s ease;
+        }
+
+        .generated-images {
+            margin-top: 2rem;
+            max-width: 700px;
+        }
+
+        .image-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-height: 700px;
+            overflow-y: auto;
+        }
+
+        .image-container::-webkit-scrollbar {
+            width: 6px;
+            background: transparent;
+        }
+
+        .image-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .image-container::-webkit-scrollbar-thumb {
+            background: rgba(255, 182, 193, 0.3);
+            border-radius: 3px;
+        }
+
+        .left-content:hover, .right-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .creative-tips {
+            position: static;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            margin: 1rem 0;
+            border: 1px solid rgba(255, 182, 193, 0.3);
+            box-shadow: 0 4px 15px rgba(255, 182, 193, 0.1);
+            font-size: 0.95rem;
+            color: #64748b;
+        }
+
+        .creative-tips p {
+            margin: 0 0 0.8rem 0;
+            color: #334155;
+            font-weight: 600;
+        }
+
+        .creative-tips ul {
+            margin: 0;
+            padding-left: 1.2rem;
+            list-style-type: none;
+        }
+
+        .creative-tips li {
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .creative-tips li:before {
+            content: "•";
+            position: absolute;
+            left: -0.8rem;
+            color: #ff9a9e;
+        }
+
+        .creative-tips li:last-child {
+            margin-bottom: 0;
+        }
+
+        .generated-images h3 {
+            color: #64748b;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        button {
+            position: relative;
+            overflow: hidden;
+        }
+
+        button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        button .ripple {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: ripple 0.8s ease-out;
+            pointer-events: none;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header, .left-content, .right-content {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .left-content {
+            animation-delay: 0.2s;
+        }
+
+        .right-content {
+            animation-delay: 0.4s;
+        }
+
+        .form-group:first-child {
+            grid-column: 1 / -1;
+        }
+
+        .form-group:nth-child(2) {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            color: #334155;
+        }
+
+        .card-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .download-btn {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 182, 193, 0.9);
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            backdrop-filter: blur(5px);
+            z-index: 10;
+            width: auto;
+        }
+
+        .download-btn:hover {
+            background: rgba(255, 182, 193, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 182, 193, 0.3);
+        }
+
+        .download-btn:active {
+            transform: translateY(0);
+        }
+
+        .image-card:hover .download-btn {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>数字织造师</h1>
+        <p>使用先进的AI技术，将您的创意转化为精美图像</p>
+    </div>
+
+    <div class="content-wrapper">
+        <!-- 左侧表单 -->
+        <div class="left-content">
+            <form id="imageForm" class="form-grid">
+                <div class="form-group">
+                    <label for="prompt">主要提示词</label>
+                    <textarea id="prompt" name="prompt" placeholder="描述您想要生成的图像..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="prompt2">辅助提示词</label>
+                    <textarea id="prompt2" name="prompt2" placeholder="添加更多细节..."></textarea>
+                </div>
+
+                <div class="creative-tips">
+                    <p>💡 提示：</p>
+                    <ul>
+                        <li>可以输入更详细的场景描述</li>
+                        <li>尝试描述人物的细节特征</li>
+                        <li>添加具体的风格要求</li>
+                        <li>描述光影和氛围</li>
+                    </ul>
+                </div>
+
+                <div class="form-group">
+                    <label for="width">宽度: <span id="widthValue">768</span></label>
+                    <input type="range" id="width" name="width" min="512" max="2048" step="128" value="768" 
+                           oninput="document.getElementById('widthValue').textContent = this.value">
+                </div>
+
+                <div class="form-group">
+                    <label for="height">高度: <span id="heightValue">768</span></label>
+                    <input type="range" id="height" name="height" min="512" max="2048" step="128" value="768"
+                           oninput="document.getElementById('heightValue').textContent = this.value">
+                </div>
+
+                <div class="form-group">
+                    <label for="steps">生成步数: <span id="stepsValue">20</span></label>
+                    <input type="range" id="steps" name="steps" min="1" max="50" value="20"
+                           oninput="document.getElementById('stepsValue').textContent = this.value">
+                </div>
+
+                <div class="form-group" style="grid-column: 1 / -1;">
+                    <button type="submit">生成图像</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 右侧内容：进度显示和图片 -->
+        <div class="right-content">
+            <!-- 进度显示部分 -->
+            <div id="loading" style="display: none; text-align: center; margin: 20px 0;">
+                <div class="loading-spinner"></div>
+                <span>正在生成图像，请稍候...</span>
+            </div>
+
+            <div class="progress-container">
+                <div id="progressText">准备就绪</div>
+                <div class="progress-bar">
+                    <div class="progress" style="width: 0%"></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div id="progressPercent">0%</div>
+                    <span class="status-badge status-processing">处理中</span>
+                    <button id="cancelBtn" style="display: none; margin-left: 10px; padding: 5px 10px; background: #ff4d4f; color: white; border: none; border-radius: 4px; cursor: pointer;">取消生成</button>
+                </div>
+            </div>
+
+            <!-- 图片显示部分 -->
+            <div class="generated-images">
+                <h3>生成的图像</h3>
+                <div class="image-container" id="imageContainer">
+                    <!-- 图片将在这里显示 -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 页面加载时立即检查登录状态
+    document.addEventListener('DOMContentLoaded', function() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = 'http://127.0.0.1:8000/login';
+            return;
+        }
+    });
+
+    // WebSocket连接管理
+    let ws = null;
+    let currentClientId = null;  // 添加全局变量存储当前的 client_id
+
+    function connectWebSocket(clientId) {
+        // 获取token并验证登录状态
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('请先登录');
+            window.location.href = 'http://127.0.0.1:8000/login';
+            return;
+        }
+
+        // 创建WebSocket连接
+        ws = new WebSocket(`ws://127.0.0.1:8000/ws/progress/${clientId}`);
+        
+        ws.onopen = function() {
+            console.log('WebSocket连接已建立');
+            // 发送认证信息
+            ws.send(JSON.stringify({
+                type: 'authorization',
+                token: `Bearer ${token}`
+            }));
+        };
+
+        ws.onmessage = handleWebSocketMessage;
+        ws.onclose = function(event) {
+            console.log('WebSocket连接已关闭', event);
+            if (event.code === 4001) {
+                handleWebSocketError({ message: 'Token验证失败' });
+            }
+        };
+        ws.onerror = handleWebSocketError;
+    }
+
+    // WebSocket消息处理
+    function handleWebSocketMessage(event) {
+        const data = JSON.parse(event.data);
+        console.log('收到WebSocket消息:', data);
+        
+        try {
+            if (data.status) {
+                updateProgress(data);
+                if (data.status === 'processing') {
+                    document.getElementById('cancelBtn').style.display = 'block';
+                }
+            }
+            else if (data.type === 'execution_interrupted') {
+                // 处理取消操作
+                document.getElementById('progressText').textContent = '已取消生成';
+                document.querySelector('.progress').style.width = '0%';
+                document.getElementById('progressPercent').textContent = '0%';
+                document.querySelector('.status-badge').textContent = '已取消';
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('cancelBtn').style.display = 'none';
+            }
+            else if (data.type === 'result' && data.data && data.data.images) {
+                // 显示生成的图片
+                displayGeneratedImages(data.data.images);
+                // 更新状态为完成
+                updateProgress({
+                    status: 'completed',
+                    progress: 1.0,
+                    text: '生成完成！'
+                });
+                document.getElementById('cancelBtn').style.display = 'none';
+            }
+        } catch (error) {
+            console.error('处理WebSocket消息时出错:', error);
+        }
+    }
+
+    // 更新进度显示
+    function updateProgress(data) {
+        const progressDiv = document.getElementById('progressText');
+        const progressBar = document.querySelector('.progress');
+        const progressPercent = document.getElementById('progressPercent');
+        const loadingDiv = document.getElementById('loading');
+        const statusBadge = document.querySelector('.status-badge');
+        
+        if (data.status === 'processing') {
+            updateProcessingStatus(data, progressDiv, progressBar, progressPercent, statusBadge);
+        } else if (data.status === 'completed') {
+            updateCompletedStatus(progressDiv, progressBar, progressPercent, loadingDiv, statusBadge);
+        }
+    }
+
+    // 显示生成的图像
+    function displayGeneratedImages(images) {
+        const imageContainer = document.getElementById('imageContainer');
+        imageContainer.innerHTML = '';
+        
+        images.forEach(imageUrl => {
+            console.log('正在添加图片:', imageUrl);
+            const imageCard = createImageCard(imageUrl);
+            imageContainer.appendChild(imageCard);
+        });
+    }
+
+    // 创建图像卡片元素
+    function createImageCard(imageUrl) {
+        const imageCard = document.createElement('div');
+        imageCard.className = 'image-card';
+        
+        const cardContent = document.createElement('div');
+        cardContent.className = 'card-content';
+        
+        const link = document.createElement('a');
+        link.href = imageUrl;
+        link.target = '_blank';
+        
+        const img = document.createElement('img');
+        img.src = imageUrl;
+        img.alt = '生成的图像';
+        img.style.width = '100%';
+        img.style.height = '500px';
+        img.style.objectFit = 'contain';
+        
+        // 添加下载按钮
+        const downloadBtn = document.createElement('button');
+        downloadBtn.className = 'download-btn';
+        downloadBtn.innerHTML = '<span>下载图片</span>';
+        downloadBtn.onclick = (e) => {
+            e.preventDefault();
+            downloadImage(imageUrl);
+        };
+        
+        // 添加加载错误处理
+        img.onerror = function() {
+            console.error('图片加载失败:', imageUrl);
+            this.alt = '图片加载失败';
+        };
+        
+        // 添加加载成功处理
+        img.onload = function() {
+            console.log('图片加载成功:', imageUrl);
+        };
+        
+        link.appendChild(img);
+        cardContent.appendChild(link);
+        cardContent.appendChild(downloadBtn);
+        imageCard.appendChild(cardContent);
+        return imageCard;
+    }
+
+    // 修改downloadImage函数
+    async function downloadImage(imageUrl) {
+        try {
+            // 解析原始URL中的参数
+            const urlObj = new URL(imageUrl);
+            const params = new URLSearchParams(urlObj.search);
+            
+            // 构建下载URL
+            const downloadUrl = `http://127.0.0.1:8000/download?${params.toString()}`;
+            
+            console.log('Downloading from:', downloadUrl); // 调试日志
+            
+            // 发送下载请求
+            const response = await fetch(downloadUrl, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            // 获取文件名
+            const contentDisposition = response.headers.get('content-disposition');
+            let downloadFilename = params.get('filename') || 'generated-image.png';
+            if (contentDisposition) {
+                const matches = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(contentDisposition);
+                if (matches != null && matches[1]) {
+                    downloadFilename = matches[1].replace(/['"]/g, '');
+                }
+            }
+            
+            // 创建Blob并下载
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = downloadFilename;
+            
+            document.body.appendChild(a);
+            a.click();
+            
+            // 清理
+            setTimeout(() => {
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            }, 100);
+        } catch (error) {
+            console.error('下载图片失败:', error);
+            console.error('下载URL:', imageUrl); // 调试日志
+            alert('下载失败，请重试');
+        }
+    }
+
+    // 表单提交处理
+    document.getElementById('imageForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+        
+        if (!checkLoginStatus()) return;
+
+        // 生成并保存新的 client_id
+        currentClientId = crypto.randomUUID();
+        console.log('Generated client_id:', currentClientId);
+        
+        // 建立 WebSocket 连接
+        connectWebSocket(currentClientId);
+
+        const formData = collectFormData();
+        await submitGenerationRequest(formData);
+    });
+
+    // 收集表单数据
+    function collectFormData() {
+        return {
+            type: 'generate',
+            prompt: document.getElementById('prompt').value,
+            prompt2: document.getElementById('prompt2').value,
+            width: parseInt(document.getElementById('width').value),
+            height: parseInt(document.getElementById('height').value),
+            steps: parseInt(document.getElementById('steps').value)
+        };
+    }
+
+    // 提交生成请求
+    async function submitGenerationRequest(formData) {
+        const loadingDiv = document.getElementById('loading');
+        // 显示loading提示
+        loadingDiv.style.display = 'block';
+        
+        initializeProgress();
+        
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        if (ws && ws.readyState === WebSocket.OPEN) {
+            ws.send(JSON.stringify(formData));
+        } else {
+            handleWebSocketError();
+        }
+    }
+
+    // 初始化进度显示
+    function initializeProgress() {
+        document.getElementById('progressText').textContent = '开始生成...';
+        document.querySelector('.progress').style.width = '0%';
+        document.getElementById('progressPercent').textContent = '0%';
+        document.querySelector('.progress-bar').style.display = 'block';
+    }
+
+    // 页面加载时检查登录状态
+    window.addEventListener('load', async function() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('请先登录');
+            window.location.href = 'http://127.0.0.1:8000/login';
+            return;
+        }
+
+        // 验证token有效性
+        try {
+            const response = await fetch('http://127.0.0.1:8000/home', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error('Token验证失败');
+            }
+        } catch (error) {
+            console.error('Token验证失败:', error);
+            alert('登录已过期,请重新登录');
+            localStorage.removeItem('token');
+            localStorage.removeItem('username');
+            window.location.href = 'http://127.0.0.1:8000/login';
+        }
+    });
+
+    // 检查登录状态
+    function checkLoginStatus() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('请先登录');
+            window.location.href = 'http://127.0.0.1:8000/login';
+            return false;
+        }
+        return true;
+    }
+
+    // WebSocket错误处理
+    function handleWebSocketError(error) {
+        console.error('WebSocket错误:', error);
+        const loadingDiv = document.getElementById('loading');
+        loadingDiv.style.display = 'none';
+        
+        // 如果是token过期，跳转到登录页面
+        if (error && error.message && error.message.includes('Token验证失败')) {
+            alert('登录已过期，请重新登录');
+            localStorage.removeItem('token');
+            localStorage.removeItem('username');
+            window.location.href = 'http://127.0.0.1:8000/login';
+            return;
+        }
+        
+        alert('连接失败，请重试');
+    }
+
+    // 更新处理中状态
+    function updateProcessingStatus(data, progressDiv, progressBar, progressPercent, statusBadge) {
+        statusBadge.className = 'status-badge status-processing';
+        statusBadge.textContent = '处理中';
+        progressDiv.textContent = data.progress_text || '处理中...';
+        if (typeof data.progress === 'number') {
+            const percent = Math.round(data.progress * 100);
+            progressBar.style.width = `${percent}%`;
+            progressPercent.textContent = `${percent}%`;
+        }
+    }
+
+    // 更新完成状态
+    function updateCompletedStatus(progressDiv, progressBar, progressPercent, loadingDiv, statusBadge) {
+        statusBadge.className = 'status-badge status-completed';
+        statusBadge.textContent = '已完成';
+        progressDiv.textContent = '生成完成！';
+        progressPercent.textContent = '100%';
+        progressBar.style.width = '100%';
+        
+        // 隐藏loading提示
+        loadingDiv.style.display = 'none';
+        
+        // 3秒后重置进度条
+        setTimeout(() => {
+            progressBar.style.width = '0%';
+            progressPercent.textContent = '0%';
+            progressDiv.textContent = '准备就绪';
+            statusBadge.className = 'status-badge status-processing';
+            statusBadge.textContent = '处理中';
+        }, 3000);
+    }
+
+    // 添加取消按钮的事件监听器
+    document.getElementById('cancelBtn').addEventListener('click', async function() {
+        try {
+            if (!currentClientId) {
+                console.error('No active generation to cancel');
+                return;
+            }
+            
+            const response = await fetch('http://127.0.0.1:8000/cancel', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify({
+                    client_id: currentClientId
+                })
+            });
+
+            const result = await response.json();
+            console.log('Cancel result:', result);
+            
+            if (result.success) {
+                // 更新UI显示取消状态
+                document.getElementById('progressText').textContent = '已取消生成';
+                document.querySelector('.progress').style.width = '0%';
+                document.getElementById('progressPercent').textContent = '0%';
+                document.querySelector('.status-badge').textContent = '已取消';
+                document.getElementById('cancelBtn').style.display = 'none';
+                document.getElementById('loading').style.display = 'none';
+            } else {
+                console.error('取消失败:', result.message);
+            }
+        } catch (error) {
+            console.error('取消请求失败:', error);
+        }
+    });
+</script>
+
+</body>
+</html>
