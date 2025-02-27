@@ -81,7 +81,7 @@
   },
   "33": {
     "inputs": {
-      "unet_name": "kimVixen_v1.safetensors",
+      "unet_name": "flux1-dev-fp8.safetensors",
       "weight_dtype": "fp8_e5m2"
     },
     "class_type": "UNETLoader",
@@ -104,9 +104,9 @@
   },
   "44": {
     "inputs": {
-      "lora_name": "Flux-荷风汉服_v1.safetensors",
-      "strength_model": 0.9,
-      "strength_clip": 0.9,
+      "lora_name": "gufeng.safetensors",
+      "strength_model": 1.0,
+      "strength_clip": 1.0,
       "model": [
         "33",
         0
