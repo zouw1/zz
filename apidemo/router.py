@@ -100,34 +100,34 @@ async def login(user: UserLogin, db: Session = Depends(get_db)):
     
     return {"username": db_user.username, "token": access_token}
 
-@router.post("/generate_img")
-async def generate_img(data: ImageGenerationRequest, token: dict = Depends(verify_token)):
-    """
-    图像生成接口
-    Args:
-        data: 图像生成参数
-        token: 用户认证token
-    Returns:
-        生成的图像URL列表
-    """
-    # 生成唯一客户端ID
-    client_id = str(uuid.uuid4())
+# @router.post("/generate_img")
+# async def generate_img(data: ImageGenerationRequest, token: dict = Depends(verify_token)):
+#     """
+#     图像生成接口
+#     Args:
+#         data: 图像生成参数
+#         token: 用户认证token
+#     Returns:
+#         生成的图像URL列表
+#     """
+#     # 生成唯一客户端ID
+#     client_id = str(uuid.uuid4())
     
-    # 加载工作流模板
-    workflow_path = os.path.join(BASE_DIR, "apidemo", "work2.json")
-    prompt = load_json_template(workflow_path)
+#     # 加载工作流模板
+#     workflow_path = os.path.join(BASE_DIR, "apidemo", "work2.json")
+#     prompt = load_json_template(workflow_path)
     
-    # 配置生成参数
-    prompt["57"]["inputs"]["noise_seed"] = random.randrange(10 ** 14, 10 ** 15)
-    prompt["65"]["inputs"]["t5xxl"] = data.prompt
-    prompt["65"]["inputs"]["clip_l"] = data.prompt2
-    prompt["56"]["inputs"]["width"] = data.width
-    prompt["56"]["inputs"]["height"] = data.height
-    prompt["59"]["inputs"]["steps"] = data.steps
+#     # 配置生成参数
+#     prompt["57"]["inputs"]["noise_seed"] = random.randrange(10 ** 14, 10 ** 15)
+#     prompt["65"]["inputs"]["t5xxl"] = data.prompt
+#     prompt["65"]["inputs"]["clip_l"] = data.prompt2
+#     prompt["56"]["inputs"]["width"] = data.width
+#     prompt["56"]["inputs"]["height"] = data.height
+#     prompt["59"]["inputs"]["steps"] = data.steps
 
-    # 执行生成并返回结果
-    images = await get_outputs(client_id, prompt)
-    return JSONResponse(content={"images": images["images"], "tags": images["tags"]})
+#     # 执行生成并返回结果
+#     images = await get_outputs(client_id, prompt)
+#     return JSONResponse(content={"images": images["images"], "tags": images["tags"]})
 
 @router.websocket("/ws/progress/{client_id}")
 async def websocket_endpoint(websocket: WebSocket, client_id: str):
