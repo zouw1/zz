@@ -14,6 +14,7 @@ from .models import UserCreate, UserLogin, UserResponse, PasswordResetRequest, P
 from .auth import create_access_token, verify_token, ACCESS_TOKEN_EXPIRE_MINUTES, SECRET_KEY, ALGORITHM
 import jwt
 from .email_utils import send_reset_email
+from pydantic import ValidationError
 
 # 获取项目根目录路径
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -163,15 +164,32 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
             while True:
                 data = await websocket.receive_json()
                 if data['type'] == 'generate':
+                    # 验证参数
+                    try:
+                        # 使用 Pydantic 模型验证参数
+                        generation_params = ImageGenerationRequest(
+                            prompt=data['prompt'],
+                            prompt2=data.get('prompt2', ''),
+                            width=data['width'],
+                            height=data['height'],
+                            steps=data['steps']
+                        )
+                    except ValidationError as e:
+                        await websocket.send_json({
+                            "type": "error",
+                            "message": f"参数验证失败: {str(e)}"
+                        })
+                        continue
+
                     # 配置生成参数
                     workflow_path = os.path.join(BASE_DIR, "apidemo", "work2.json")
                     prompt = load_json_template(workflow_path)
                     prompt["57"]["inputs"]["noise_seed"] = random.randrange(10 ** 14, 10 ** 15)
-                    prompt["65"]["inputs"]["t5xxl"] = data['prompt']
-                    prompt["65"]["inputs"]["clip_l"] = data['prompt2']
-                    prompt["56"]["inputs"]["width"] = data['width']
-                    prompt["56"]["inputs"]["height"] = data['height']
-                    prompt["59"]["inputs"]["steps"] = data['steps']
+                    prompt["65"]["inputs"]["t5xxl"] = generation_params.prompt
+                    prompt["65"]["inputs"]["clip_l"] = generation_params.prompt2
+                    prompt["56"]["inputs"]["width"] = generation_params.width
+                    prompt["56"]["inputs"]["height"] = generation_params.height
+                    prompt["59"]["inputs"]["steps"] = generation_params.steps
 
                     # 执行生成
                     result = await get_outputs(client_id, prompt, progress_callback)
