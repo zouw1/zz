@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 # SMTP配置
 SMTP_SERVER = "smtp.qq.com"
 SMTP_PORT = 465  # 改回465端口
-SMTP_USER = "2423127730@qq.com"
+SMTP_USER = "1111111@qq.com"
 SMTP_PASSWORD = "tpriwckpneusebje"
 
 async def send_reset_email(to_email: str, reset_token: str):
